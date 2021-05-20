@@ -3,7 +3,7 @@ import json
 import subprocess
 import os
 
-GET_VIDEO_LIST_URL = "https://space.bilibili.com/ajax/member/getSubmitVideos"
+GET_VIDEO_LIST_URL = "https://api.bilibili.com/x/space/arc/search"
 GET_VIDEO_INFO_URL = "https://api.bilibili.com/x/web-interface/view"
 GET_VIDEO_DOENLOAD_URL = "https://api.bilibili.com/x/player/playurl"
 
@@ -12,15 +12,15 @@ def getVideos(mid, page):
     response = requests.get(GET_VIDEO_LIST_URL,
                             {
                                 "mid": mid,
-                                "pagesize": 30,
+                                "ps": 30,
                                 "tid": 0,
-                                "page": page,
+                                "pn": page,
                                 "keyword": "",
                                 "order": "pubdate"
                             }).json()
     # print(response)
     if response['status'] == True:
-        datas = response['data']['vlist']
+        datas = response['data']['list']['vlist']
         for data in datas:
             videoList.append(data['aid'])
     return videoList
